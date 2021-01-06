@@ -1,6 +1,8 @@
+// The Page for the Projects List
 import React, {useEffect, useState} from 'react';
 import ProjectCard from './ProjectCard.js';
 import EditProject from './EditProject';
+import {useHistory} from 'react-router-dom';
 
 const ListProjects = () => {
     //projects is our state, setProjects is only way to change
@@ -9,7 +11,7 @@ const ListProjects = () => {
     //delete
     const deleteProject = async (id) => {
         try {
-            const delProject = await fetch(`http://localhost:5000/api/projects/${id}`,{
+            const delProject = await fetch(`/api/projects/${id}`,{
                 method: "DELETE"
             });
 
@@ -20,16 +22,21 @@ const ListProjects = () => {
         }
     }
     
+    // Go to Add Project page
+    let history = useHistory();
+    const handleAddProject = () => {
+        history.push('/add-project');
+    }
+
     const getProjects = async () => {
         try {
-            const response = await fetch("http://localhost:5000/api/projects");
+            const response = await fetch("/api/projects");
             const jsonData = await response.json();
-            // console.log(jsonData); 
 
             setProjects(jsonData);
             
         } catch (err) {
-            console.erorr(err.message);
+            console.error(err.message);
         }
     }
 
@@ -37,9 +44,12 @@ const ListProjects = () => {
         getProjects();
     }, []);
 
+
     return(
         <div>
+            <a href='users/logout'>Logout</a>
             <h1>All Projects</h1>
+            <button onClick={() => handleAddProject()}>Add a Project</button>
 
             <table>
                 <thead>
@@ -61,9 +71,11 @@ const ListProjects = () => {
                     ))}
                 </tbody>
             </table>
-
-            {projects.map(project => (
-                <ProjectCard>{ project }</ProjectCard>
+                        
+            {projects && 
+                projects.map(project => (
+                // <ProjectCard>{ project}</ProjectCard>
+                <ProjectCard projects={project} key={project.id}/>
             ))}
         </div>
     )

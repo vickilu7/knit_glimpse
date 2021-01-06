@@ -1,43 +1,55 @@
-import React, { Component} from 'react';
+import React, {useEffect, useState} from 'react';
 // import Button from '@material-ui/core/Button';
 
 import { Avatar, Button, Tag } from 'antd';
 import 'antd/dist/antd.css';
 import './projects.css';
 
-function ProjectCard(Project) {
+function ProjectCard(props) {
+    const [user, setUser] = useState([]);
+    const [tags, setTags] = useState([]);
 
-    // const tags = Project.children.interests.map(tag => <Tag color="#D8FAFA">{ tag }</Tag>);
-    
+    const getUser = async () => {
+      const response = await fetch(`/api/users/${props.projects.creator_id}`);
+      const jsonData = await response.json();
+      setUser(jsonData);
+    }
+
+    const getTags = async () => {
+      const response = await fetch(`/api/projects/${props.projects.id}`);
+      const jsonData = await response.json();
+      setTags(jsonData);
+    }
+
+    useEffect(()=> {
+      getUser();
+      getTags();
+    }, []);
+
+
     return (
         <div className="card">
             <div style={{width: 600}}>
               {/* title */}
-              <div className="proj-title">{Project.children.title}</div>
+              <div className="proj-title">{props.projects.title}</div>
 
               {/* tags */}
-              {/* <div style={{marginBottom: 36}}>
-                  {tags}
-                <Tag color="#D8FAFA">Tag</Tag>
-                <Tag color="#D8FAFA">Tag</Tag>
-                <Tag color="#E0C8FB">Tag</Tag>
-                <Tag color="#F9E8C5">Tag</Tag>
-              </div> */}
+              <div style={{marginBottom: 36}}>
+                  {tags.map(tag => <Tag color="#E0C8FB" key={tag.type}>{ tag.type }</Tag>)}
+              </div>
 
               {/* description */}
-              <p>{Project.children.description}</p>
+              <p>{props.projects.description}</p>
 
               {/* user who posted */}
               <div className="proj-speaker">
                   <Avatar style={{
                     color: '#f56a00', backgroundColor: '#fde3cf', marginRight: "8px" }}>
-                      {/* {Project.children.members[0].firstName.charAt(0)} */}
-                      {/* {Project.children.members[0].lastName.charAt(0)} */}
-                      {Project.children.title.charAt(0)}
+                      {/* {user.first_name.charAt(0)}{user.last_name.charAt(0)} */}
+                      {user.first_name}
                   </Avatar>
                   <div className="subtext">
-                    {Project.children.title}, Role
-                      {/* {Project.children.members[0].firstName} {Project.children.members[0].lastName} */}
+                    {user.first_name} {user.last_name}, {user.role}
                 </div>
               </div>
             </div>
@@ -50,15 +62,15 @@ function ProjectCard(Project) {
                 </div>
 
                 {/* team members */}
-                <div style={{marginTop: 40}}>
+                {/* <div style={{marginTop: 40}}>
                     <p className="subheader">Team Members</p>
                     <div>
-                        <Avatar size="large">{Project.children.title.charAt(0)}</Avatar>
+                        <Avatar size="large">{props.projects.title.charAt(0)}</Avatar>
                         <Avatar size="large"></Avatar>
                         <Avatar size="large"></Avatar>
                         <Avatar size="large"></Avatar>
                     </div>
-                </div>
+                </div> */}
             </div>
         </div>
 

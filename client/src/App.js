@@ -1,7 +1,11 @@
 import React from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './App.css';
 import ListProjects from './components/ListProjects';
 import AddProject from './components/AddProject';
+import Home from './components/Home';
+import Register from './components/Register';
+import Login from './components/Login';
 
 
 class App extends React.Component {
@@ -28,14 +32,22 @@ class App extends React.Component {
   }
 
   render(){
-    // const projects = this.state.projects;
-    // const listProjects = projects.map(project => <ProjectCard>{ project }</ProjectCard>);
 
     return (
       <div className="App">
-        {/* <div>{ listProjects }</div> */}
-        <AddProject/>
-        <ListProjects/>
+        <Router>
+          <Switch>
+            <Route exact path= '/home' component= {Home}/>
+            <Route exact path= '/users/register' component= {Register}/>
+            <Route exact path= '/users/login' component= {Login}/>
+            
+            <Route exact path= '/' component= {ListProjects}/>
+            <Route exact path= '/add-project' component= {AddProject}/>
+          </Switch>
+        </Router>
+
+        {/* <AddProject/> */}
+        {/* <ListProjects/> */}
       </div>
     );
   }
