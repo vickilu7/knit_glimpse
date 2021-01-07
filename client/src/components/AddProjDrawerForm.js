@@ -129,7 +129,7 @@ const AddProjDrawerForm = () => {
                   >
                     <Option value="mobile" label="mobile">Mobile (iOS, Android)</Option>
                     <Option value="web" label="web">Web (Website, Web-apps)</Option>
-                    <Option value="game" label="game">Game</Option>
+                    <Option value="hardware" label="hardware">Hardware</Option>
                   </Select>
                 </Form.Item>
               </Col>
@@ -140,14 +140,14 @@ const AddProjDrawerForm = () => {
                     rules={[{ required: true, message: 'Please select what interest(s) this project has' }]}
                 >
                     <Select
-                    placeholder="Social good, Healthcare, etc..."
+                    placeholder="Social, Healthcare, etc..."
                     mode="multiple"
                     allowClear
                     labelInValue
                     onChange={handleInterestChange}
                     >
+                        <Option value="social" label="social">Social</Option>
                         <Option value="crypto" label="crypto">Cryptocurrency</Option>
-                        <Option value="social" label="social">Social Good</Option>
                         <Option value="health" label="health">Health</Option>
                         <Option value="ai" label="ai">Artificial Intelligence</Option>
                     </Select>

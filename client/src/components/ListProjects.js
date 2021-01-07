@@ -4,12 +4,12 @@ import {useHistory} from 'react-router-dom';
 
 import ProjectCard from './ProjectCard.js';
 import Navbar from './Navbar.js';
-import Filters from './Filters.js';
+// import Filters from './Filters.js';
 import Footer from './Footer.js';
 import { ReactComponent as HeroImage} from './hero.svg';
 import AddProjDrawerForm from './AddProjDrawerForm.js';
+import CheckBox from './Checkbox.js';
 
-import { Button } from 'antd';
 
 const ListProjects = () => {
     // Go to other pages
@@ -18,8 +18,12 @@ const ListProjects = () => {
         history.push('/add-project');
     }
 
-    //projects is our state, setProjects is only way to change
+    // initial states
     const [projects, setProjects] = useState([]); 
+    const [Filters, setFilters] = useState({
+        "interests": ['social', 'crypto', 'health','ai'],
+        "types": []
+    });
 
     //delete
     const deleteProject = async (id) => {
@@ -35,9 +39,12 @@ const ListProjects = () => {
         }
     }
 
-    const getProjects = async () => {
+    const getProjects = async (f) => {
         try {
-            const response = await fetch("/api/projects");
+            const queryString = new URLSearchParams(f).toString();
+            console.log(queryString);
+            const response = await fetch(`api/projects?${queryString}`);
+            
             const jsonData = await response.json();
 
             setProjects(jsonData);
@@ -47,9 +54,18 @@ const ListProjects = () => {
         }
     }
     useEffect(()=> {
-        getProjects();
+        getProjects(Filters);
     }, []);
 
+    const handleFilters = (filters, category) => {
+        console.log(filters);
+
+        const newFilters = {...Filters};
+        newFilters[category] = filters; //ex: newFilters[interests] = ["social good", "ai"]
+
+        getProjects(newFilters);
+        setFilters(newFilters);
+    }
 
     return(
         <div>
@@ -76,14 +92,20 @@ const ListProjects = () => {
 
                 <div className = 'project-space'>
                     <div>
-                        <Filters/>
+                        {/* <Filters/> */}
+                        <CheckBox 
+                            handleFilters={filters => handleFilters(filters, "interests")}
+                        />
+                        {/* <CheckBox 
+                            handleFilters={filters => handleFilters(filters, "types")}
+                        /> */}
                         {/* <Filters allFilterClickListener={this.filterClickHandler}/> */}
                         {/* <a href='users/logout'>Logout</a> */}
                         <table>
                             <thead>
                             <tr>
                                 <th>Title</th>
-                                <th>Creator</th>
+                                <th>Project ID</th>
                                 <th>Delete</th>
                             </tr>
                             </thead>
@@ -91,7 +113,7 @@ const ListProjects = () => {
                                 {projects.map(project => (
                                     <tr key={project.id}>
                                         <td> {project.title}</td>
-                                        <td> {project.creator_id}</td>
+                                        <td> {project.id}</td>
                                         <td> <button onClick={()=>deleteProject(project.id)}>Delete</button></td>
                                     </tr>
                                 ))}
@@ -103,12 +125,6 @@ const ListProjects = () => {
                         {projects && projects.map(project => (
                             <ProjectCard projects={project} key={project.id}/>
                         ))}
-                        
-                        {/* <Button className="button secondary" style={{
-                            display: "flex", margin: "70px auto"
-                        }}>
-                            Load More
-                        </Button> */}
                     </div>
                 </div>
             </div>
