@@ -40,7 +40,6 @@ CREATE TABLE projects(
 );
 
 
--- not in projects table alr bc multiple values
 CREATE TABLE IF NOT EXISTS project_types
 (
     project_id      UUID NOT NULL,

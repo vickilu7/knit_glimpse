@@ -16,14 +16,13 @@ router.get('/', async (req, res) => {
 // Get SINGLE Project
 router.get('/:id', async (req, res) => {
     try {
-        const project = await pool.query("SELECT * FROM projects INNER JOIN project_types ON projects.id = project_types.project_id WHERE projects.id=$1", [req.params.id]);
+        const project = await pool.query("SELECT * FROM projects INNER JOIN interests ON projects.id = interests.project_id WHERE projects.id=$1", [req.params.id]);
         res.json(project.rows);
     } catch (err) {
         console.error(err.message);
     }
 });
 
-// SELECT DISTINCT * FROM projects INNER JOIN project_types ON projects.id = project_types.project_id WHERE projects.id = '';
 
 // Create New Project
 router.post('/', async (req, res) => {
@@ -60,20 +59,6 @@ router.post('/', async (req, res) => {
     }
 });
 
-// Update Project
-router.put('/:id', async (req, res) => {
-    try {
-        const updProject = await pool.query(
-            "UPDATE projects SET title = $1 WHERE id = $2",
-            [req.body.title, req.params.id]
-        );
-        res.json("Project updated!"); 
-    } catch (err) {
-        console.error(err.message);
-    }
-});
-
-
 // Delete Project
 router.delete('/:id', async (req, res) => {
     try {
@@ -89,5 +74,18 @@ router.delete('/:id', async (req, res) => {
     }  
 });
 
+
+// Update Project
+router.put('/:id', async (req, res) => {
+    try {
+        const updProject = await pool.query(
+            "UPDATE projects SET title = $1 WHERE id = $2",
+            [req.body.title, req.params.id]
+        );
+        res.json("Project updated!"); 
+    } catch (err) {
+        console.error(err.message);
+    }
+});
 
 module.exports = router;

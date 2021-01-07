@@ -2,12 +2,11 @@ import React, {useEffect, useState} from 'react';
 // import Button from '@material-ui/core/Button';
 
 import { Avatar, Button, Tag } from 'antd';
-import 'antd/dist/antd.css';
 import './projects.css';
 
 function ProjectCard(props) {
     const [user, setUser] = useState([]);
-    const [tags, setTags] = useState([]);
+    const [interests, setInterests] = useState([]);
 
     const getUser = async () => {
       const response = await fetch(`/api/users/${props.projects.creator_id}`);
@@ -15,15 +14,15 @@ function ProjectCard(props) {
       setUser(jsonData);
     }
 
-    const getTags = async () => {
+    const getInterests = async () => {
       const response = await fetch(`/api/projects/${props.projects.id}`);
       const jsonData = await response.json();
-      setTags(jsonData);
+      setInterests(jsonData);
     }
 
     useEffect(()=> {
       getUser();
-      getTags();
+      getInterests();
     }, []);
 
 
@@ -35,7 +34,7 @@ function ProjectCard(props) {
 
               {/* tags */}
               <div style={{marginBottom: 36}}>
-                  {tags.map(tag => <Tag color="#E0C8FB" key={tag.type}>{ tag.type }</Tag>)}
+                  {interests.map(i => <Tag color="#E0C8FB" className="proj-tags" key={i.interest}>{ i.interest }</Tag>)}
               </div>
 
               {/* description */}

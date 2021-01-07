@@ -1,10 +1,23 @@
 // The Page for the Projects List
 import React, {useEffect, useState} from 'react';
-import ProjectCard from './ProjectCard.js';
-import EditProject from './EditProject';
 import {useHistory} from 'react-router-dom';
 
+import ProjectCard from './ProjectCard.js';
+import Navbar from './Navbar.js';
+import Filters from './Filters.js';
+import Footer from './Footer.js';
+import { ReactComponent as HeroImage} from './hero.svg';
+import AddProjDrawerForm from './AddProjDrawerForm.js';
+
+import { Button } from 'antd';
+
 const ListProjects = () => {
+    // Go to other pages
+    let history = useHistory();
+    const handleAddProject = () => {
+        history.push('/add-project');
+    }
+
     //projects is our state, setProjects is only way to change
     const [projects, setProjects] = useState([]); 
 
@@ -21,12 +34,6 @@ const ListProjects = () => {
             console.error(err.message);
         }
     }
-    
-    // Go to Add Project page
-    let history = useHistory();
-    const handleAddProject = () => {
-        history.push('/add-project');
-    }
 
     const getProjects = async () => {
         try {
@@ -39,7 +46,6 @@ const ListProjects = () => {
             console.error(err.message);
         }
     }
-
     useEffect(()=> {
         getProjects();
     }, []);
@@ -47,36 +53,66 @@ const ListProjects = () => {
 
     return(
         <div>
-            <a href='users/logout'>Logout</a>
-            <h1>All Projects</h1>
-            <button onClick={() => handleAddProject()}>Add a Project</button>
+            <Navbar/>
+            <div className = 'content'>
+                <div className="App-hero">
+                    {/* stuff on left */}
+                    <div style={{width: 600}}>
+                        <h1 style={{fontSize: 56, fontWeight: 700}}>
+                            Catchy Header Maybe Two Lines
+                        </h1>
 
-            <table>
-                <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Creator</th>
-                    <th>Delete</th>
-                    <th>Edit</th>
-                </tr>
-                </thead>
-                <tbody>
-                    {projects.map(project => (
-                        <tr key={project.id}>
-                            <td> {project.title}</td>
-                            <td> {project.creator_id}</td>
-                            <td> <button onClick={()=>deleteProject(project.id)}>Delete</button></td>
-                            <td><EditProject/></td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+                        <p style={{marginBottom: 60}}>
+                            Discover what your next dream team is working on or create an idea of your own!
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        </p>
+
+                        <AddProjDrawerForm/>
+                    </div>
+
+                    {/* hero image */}
+                    <HeroImage height="auto"/>
+                </div>
+
+                <div className = 'project-space'>
+                    <div>
+                        <Filters/>
+                        {/* <Filters allFilterClickListener={this.filterClickHandler}/> */}
+                        {/* <a href='users/logout'>Logout</a> */}
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Creator</th>
+                                <th>Delete</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                {projects.map(project => (
+                                    <tr key={project.id}>
+                                        <td> {project.title}</td>
+                                        <td> {project.creator_id}</td>
+                                        <td> <button onClick={()=>deleteProject(project.id)}>Delete</button></td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div>
+                        {projects && projects.map(project => (
+                            <ProjectCard projects={project} key={project.id}/>
+                        ))}
                         
-            {projects && 
-                projects.map(project => (
-                // <ProjectCard>{ project}</ProjectCard>
-                <ProjectCard projects={project} key={project.id}/>
-            ))}
+                        {/* <Button className="button secondary" style={{
+                            display: "flex", margin: "70px auto"
+                        }}>
+                            Load More
+                        </Button> */}
+                    </div>
+                </div>
+            </div>
+            <Footer/>
         </div>
     )
 };
