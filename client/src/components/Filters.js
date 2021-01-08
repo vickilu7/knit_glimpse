@@ -4,7 +4,7 @@ import { Select, Button} from 'antd';
 const { Option } = Select;
 
 //function Filters(props)
-function Filters() { 
+function FiltersComponent() { 
     // const handleChange = (type, value) => {
     //   console.log(`selected ${type}.${value}`);
     //   props.allFilterClickListener(type, value);
@@ -70,14 +70,8 @@ function Filters() {
                     </Option>
                   </Select>
               </div>
-
-              {/* see more */}
-              <Button type="link"
-                style={{ color: "#2B44FF", margin: "0px auto"}}>
-                  See More
-              </Button>
       </div>
     );
 }
 
-export default Filters;
+export default FiltersComponent;

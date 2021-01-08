@@ -6,17 +6,17 @@ const pool = require('../../db');
 // Get ALL Projects
 router.get('/', async (req, res) => {
     try {
-        console.log(req.query.interests); // Social Good,Crypto,Health,AI
-        const r = req.query.interests.split(',');
-        console.log(r);
+        const i = req.query.interests.split(',');
+        const t = req.query.types.split(',');
+        // console.log(i,t);
 
-
-        // const allProjects = await pool.query("SELECT * FROM projects");
         const allProjects = await pool.query(
-            'SELECT DISTINCT ON (projects.id) * FROM projects INNER JOIN interests ON projects.id=interests.project_id WHERE interests.interest = ANY ($1)'
-            ,[r]);
+            'SELECT DISTINCT ON (p.id) * FROM projects p INNER JOIN interests i ON p.id=i.project_id INNER JOIN project_types t ON p.id = t.project_id WHERE i.interest= ANY($1) AND t.type= ANY($2)'
+            ,[i, t]
+        );     
         
         res.json(allProjects.rows);       
+        
     } catch (err) {
         console.error(err.message);
     }

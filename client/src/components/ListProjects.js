@@ -4,7 +4,7 @@ import {useHistory} from 'react-router-dom';
 
 import ProjectCard from './ProjectCard.js';
 import Navbar from './Navbar.js';
-// import Filters from './Filters.js';
+import FiltersComponent from './Filters.js';
 import Footer from './Footer.js';
 import { ReactComponent as HeroImage} from './hero.svg';
 import AddProjDrawerForm from './AddProjDrawerForm.js';
@@ -22,7 +22,7 @@ const ListProjects = () => {
     const [projects, setProjects] = useState([]); 
     const [Filters, setFilters] = useState({
         "interests": ['social', 'crypto', 'health','ai'],
-        "types": []
+        "types": ['mobile', 'web', 'hardware']
     });
 
     //delete
@@ -58,8 +58,6 @@ const ListProjects = () => {
     }, []);
 
     const handleFilters = (filters, category) => {
-        console.log(filters);
-
         const newFilters = {...Filters};
         newFilters[category] = filters; //ex: newFilters[interests] = ["social good", "ai"]
 
@@ -92,15 +90,17 @@ const ListProjects = () => {
 
                 <div className = 'project-space'>
                     <div>
-                        {/* <Filters/> */}
+                        <FiltersComponent/>
                         <CheckBox 
                             handleFilters={filters => handleFilters(filters, "interests")}
+                            filterKind="interests"
                         />
-                        {/* <CheckBox 
+                        <CheckBox 
                             handleFilters={filters => handleFilters(filters, "types")}
-                        /> */}
-                        {/* <Filters allFilterClickListener={this.filterClickHandler}/> */}
+                            filterKind="types"
+                        />
                         {/* <a href='users/logout'>Logout</a> */}
+                        <h1>Personal Control Panel lol</h1>
                         <table>
                             <thead>
                             <tr>

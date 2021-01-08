@@ -1,6 +1,10 @@
 import React, {useState} from 'react';
-import {Checkbox} from 'antd';
+import { Select, Button } from 'antd';
+import { Checkbox, Collapse } from 'antd';
 
+const { Panel } = Collapse
+
+const { Option } = Select;
 
 const interests = [
     {
@@ -20,10 +24,27 @@ const interests = [
         "name": "ai"
     }
 ];
+const types = [
+    {
+        "id": 1,
+        "name": "mobile"
+    },
+    {
+        "id": 2,
+        "name": "web"
+    },
+    {
+        "id": 3,
+        "name": "hardware"
+    }
+];
 
 function CheckBox(props){
-    const [checked, setChecked] = useState([]); // array
+    const [checked, setChecked] = useState([]); // array ex: [1, 2, 3]
     
+    var arr = [];
+    if (props.filterKind === 'interests'){arr = interests} 
+    else if (props.filterKind === 'types'){arr = types}
 
     const handleToggle = (v) => {
         const currentIndex = checked.indexOf(v);
@@ -36,10 +57,10 @@ function CheckBox(props){
         }
 
         setChecked(newChecked);
-        props.handleFilters(newChecked); //ex: [1, 2, 3, ]
+        props.handleFilters(newChecked);
     }
 
-    const renderCheckboxList = () => interests.map( (value, index) => (
+    const renderCheckboxList = () => arr.map( (value, index) => (
         <React.Fragment key={index}>
             <Checkbox
                 onChange={() => handleToggle(value.name)}
@@ -52,7 +73,11 @@ function CheckBox(props){
 
     return(
         <div>
-            {renderCheckboxList()}
+            <Collapse defaultActiveKey={['0']} >
+                <Panel header="Continents" key="1">
+                    {renderCheckboxList()}
+                </Panel>
+            </Collapse>
         </div>
     );
 }

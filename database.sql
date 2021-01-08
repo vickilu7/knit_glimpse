@@ -59,3 +59,10 @@ CREATE TABLE IF NOT EXISTS interests
         REFERENCES projects(id)
         ON DELETE CASCADE
 );
+
+
+
+-- SELECT DISTINCT ON (p.id) * FROM projects p
+-- INNER JOIN interests i ON p.id=i.project_id 
+-- INNER JOIN project_types t ON p.id = t.project_id
+-- WHERE i.interest IN ('health', 'ai') AND t.type IN ('web');
