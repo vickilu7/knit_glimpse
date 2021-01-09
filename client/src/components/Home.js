@@ -24,7 +24,7 @@ const Home = () => {
     const login = async () => {
         const body = {
             username: loginUsername,
-            passwork: loginPassword
+            password: loginPassword
         }
         
         const response = await fetch("http://localhost:5000/login", {

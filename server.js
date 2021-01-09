@@ -4,13 +4,44 @@ const cors = require('cors');
 const pool = require('./db');
 const uuid = require('uuid');
 const passport = require('passport');
-const passportLocal = require('passport-local').Strategy;
 const bcrypt = require('bcryptjs');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
+const Strategy = require('passport-local').Strategy;
 
 
 const app = express();
+
+passport.use(new Strategy(
+    async (username, password, done) => {
+        console.log('inside new strategy');
+
+        const checkForUser = await pool.query(
+            'SELECT * FROM dummyusers WHERE username=$1', [username]
+        );
+        if (checkForUser.rows.length === 0){
+            return done(null, false);
+        } else {
+            const user = checkForUser.rows[0]; // user object
+
+            console.log(user.password);
+            bcrypt.compare(password, user.password, (err, result) => {
+                if (err) throw err;
+                if (result === true){
+                    console.log('pw compare good!');
+                    return done(null, user);
+                } else {
+                    console.log('here?');
+                    return done(null, false);
+                }
+            })
+        }
+
+    }));
+passport.serializeUser(function(user, cb) {
+    console.log(user.username);
+    cb(null, user.username);
+});
 
 // middleware
 app.use(express.json());
@@ -23,38 +54,38 @@ app.use(cors({
 // middleware for user auth
 app.use(session({
     secret: 'secret',
-    resave: true, //should these both be false?
-    saveUninitialized: true
+    resave: false,
+    saveUninitialized: false
 }));
 app.use(cookieParser('secret'));
+
+// Initialize Passport and restore authentication state, if any, from the session.
 app.use(passport.initialize());
 app.use(passport.session());
 
-require('./passport-config.js')(passport);
+// require('./passport-config.js')(passport);
 // user auth routes (backend 5000 routes)
+
 app.post('/login', (req, res, next) => { 
-    console.log(req.body);
-    // console.log(passport);
 
     passport.authenticate('local', (err, user, info) => {
         if (err) return next(err);
         console.log(user);
+
         if (!user) {
             console.log('no user exists');
             res.send("No User Exists");
-        }
-        else {
-        req.logIn(user, (err) => {
-            if (err) return next(err);
-            res.send("Successfully Authenticated");
-            console.log('success');
-            console.log(req.user);
-        });
+        } else {
+            req.logIn(user, (err) => {
+                if (err) return next(err);
+                console.log('log in success');
+
+                res.send("Successfully Authenticated");
+            });
         }
     })(req, res, next);
-
-    return res.json({msg: 'asdfa'});
 });
+
 app.post('/register', async (req, res) => {
     console.log(req.body);
     const { username, password } = req.body;

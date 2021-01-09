@@ -4,8 +4,6 @@ const pool = require('./db');
 
 //param is passport library bc wanna use same instance of passport throughout app
 module.exports = function(passport){
-    console.log(passport);
-    
     passport.use(
         new localStrategy(async (username, password, done) => {
             console.log('hereee?');
