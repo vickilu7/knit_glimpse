@@ -8,7 +8,6 @@ import FiltersComponent from './Filters.js';
 import Footer from './Footer.js';
 import { ReactComponent as HeroImage} from './hero.svg';
 import AddProjDrawerForm from './AddProjDrawerForm.js';
-import CheckBox from './Checkbox.js';
 
 
 const ListProjects = () => {
@@ -20,9 +19,11 @@ const ListProjects = () => {
 
     // initial states
     const [projects, setProjects] = useState([]); 
+    const allInterests = ['social', 'crypto', 'health','ai'];
+    const allTypes = ['mobile', 'web', 'hardware'];
     const [Filters, setFilters] = useState({
-        "interests": ['social', 'crypto', 'health','ai'],
-        "types": ['mobile', 'web', 'hardware']
+        "interests": allInterests,
+        "types": allTypes
     });
 
     //delete
@@ -59,7 +60,12 @@ const ListProjects = () => {
 
     const handleFilters = (filters, category) => {
         const newFilters = {...Filters};
-        newFilters[category] = filters; //ex: newFilters[interests] = ["social good", "ai"]
+
+        if(filters.length == 0){
+            newFilters[category] = (category ==='interests') ? allInterests : allTypes;
+        } else{
+            newFilters[category] = filters; //ex: newFilters[interests] = ["social good", "ai"]
+        }
 
         getProjects(newFilters);
         setFilters(newFilters);
@@ -89,16 +95,17 @@ const ListProjects = () => {
                 </div>
 
                 <div className = 'project-space'>
-                    <div>
-                        <FiltersComponent/>
-                        <CheckBox 
+                    <div className="App-filters">
+                        <div className='subheader'>Filter By</div>
+                        <FiltersComponent
                             handleFilters={filters => handleFilters(filters, "interests")}
-                            filterKind="interests"
+                            filterKind="Interests"
                         />
-                        <CheckBox 
+                        <FiltersComponent
                             handleFilters={filters => handleFilters(filters, "types")}
-                            filterKind="types"
+                            filterKind="Types"
                         />
+
                         {/* <a href='users/logout'>Logout</a> */}
                         <h1>Personal Control Panel lol</h1>
                         <table>

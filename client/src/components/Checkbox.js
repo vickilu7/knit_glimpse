@@ -1,10 +1,9 @@
+// can delete this
+
 import React, {useState} from 'react';
-import { Select, Button } from 'antd';
 import { Checkbox, Collapse } from 'antd';
 
 const { Panel } = Collapse
-
-const { Option } = Select;
 
 const interests = [
     {
@@ -57,6 +56,7 @@ function CheckBox(props){
         }
 
         setChecked(newChecked);
+        console.log(newChecked);
         props.handleFilters(newChecked);
     }
 
@@ -74,7 +74,7 @@ function CheckBox(props){
     return(
         <div>
             <Collapse defaultActiveKey={['0']} >
-                <Panel header="Continents" key="1">
+                <Panel header={props.filterKind} key="1">
                     {renderCheckboxList()}
                 </Panel>
             </Collapse>
