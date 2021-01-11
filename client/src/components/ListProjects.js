@@ -1,6 +1,7 @@
-// The Page for the Projects List
+// The Page for the Home/Landing
 import React, {useEffect, useState} from 'react';
 import {useHistory} from 'react-router-dom';
+import {useAuth} from '../AuthContext';
 
 import ProjectCard from './ProjectCard.js';
 import Navbar from './Navbar.js';
@@ -8,22 +9,33 @@ import FiltersComponent from './Filters.js';
 import Footer from './Footer.js';
 import { ReactComponent as HeroImage} from './hero.svg';
 import AddProjDrawerForm from './AddProjDrawerForm.js';
-import CheckBox from './Checkbox.js';
 
 
 const ListProjects = () => {
-    // Go to other pages
-    let history = useHistory();
-    const handleAddProject = () => {
-        history.push('/add-project');
+    const history = useHistory();
+
+    async function handleLogout(){
+        setError('');
+        try {
+            await logout();
+            history.push('/login');
+            
+        } catch {
+            setError('Failed to log out');
+        }
     }
 
     // initial states
+    const [error, setError] = useState('');
+    const { currentUser, logout } = useAuth();
     const [projects, setProjects] = useState([]); 
+    const allInterests = ['social', 'crypto', 'health','ai'];
+    const allTypes = ['mobile', 'web', 'hardware'];
     const [Filters, setFilters] = useState({
         "interests": ['social', 'crypto', 'health','ai'],
         "types": ['mobile', 'web', 'hardware']
     });
+    const [user, setUser] = useState({}); //testing purposes
 
     //delete
     const deleteProject = async (id) => {
@@ -55,11 +67,23 @@ const ListProjects = () => {
     }
     useEffect(()=> {
         getProjects(Filters);
+        getRole(); //testing
     }, []);
+
+    async function getRole(){
+        const response = await fetch(`api/users/${currentUser.email}`);
+        const jsonData = await response.json();
+        setUser(jsonData);
+    }
 
     const handleFilters = (filters, category) => {
         const newFilters = {...Filters};
-        newFilters[category] = filters; //ex: newFilters[interests] = ["social good", "ai"]
+
+        if(filters.length === 0){
+            newFilters[category] = (category ==='interests') ? allInterests : allTypes;
+        } else{
+            newFilters[category] = filters; //ex: newFilters[interests] = ["social good", "ai"]
+        }
 
         getProjects(newFilters);
         setFilters(newFilters);
@@ -67,8 +91,10 @@ const ListProjects = () => {
 
     return(
         <div>
+            {error && <h4>{error}</h4>}
             <Navbar/>
             <div className = 'content'>
+                
                 <div className="App-hero">
                     {/* stuff on left */}
                     <div style={{width: 600}}>
@@ -89,17 +115,21 @@ const ListProjects = () => {
                 </div>
 
                 <div className = 'project-space'>
-                    <div>
-                        <FiltersComponent/>
-                        <CheckBox 
+                    <div className="App-filters">
+                        <div className='subheader'>Filter By</div>
+
+                        <FiltersComponent
                             handleFilters={filters => handleFilters(filters, "interests")}
-                            filterKind="interests"
+                            filterKind="Interests"
                         />
-                        <CheckBox 
+                        <FiltersComponent
                             handleFilters={filters => handleFilters(filters, "types")}
-                            filterKind="types"
+                            filterKind="Types"
                         />
-                        {/* <a href='users/logout'>Logout</a> */}
+
+                        <button onClick={handleLogout}>Log Out</button>
+                        <h3>Email: {currentUser.email}</h3>
+                        <h4>Role Info: {user.role}</h4>
                         <h1>Personal Control Panel lol</h1>
                         <table>
                             <thead>

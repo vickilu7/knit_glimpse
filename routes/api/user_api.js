@@ -13,14 +13,14 @@ router.get('/', async (req, res) => {
     }
 });
 
-// Get SINGLE User
-router.get('/:id', async (req, res) => {
-    try {
-        const user = await pool.query("SELECT * FROM users WHERE id=$1", [req.params.id]);
-        res.json(user.rows[0]);
-    } catch (err) {
-        console.error(err.message);
-    }
+// Get SINGLE User by email or id
+router.get('/:identifier', async (req, res) => {
+    const identifier = req.params.identifier;
+    const type = identifier.indexOf("@") !== -1 ? 'email' : 'id';
+    console.log(type === 'email' ? 'Existing email: ' + identifier : 'User: ' + identifier);
+    const user = type === 'email' ? await pool.query("SELECT * FROM users WHERE email=$1", [identifier])
+        : await pool.query("SELECT * FROM users WHERE id=$1", [identifier]);
+    res.json(user.rows[0]);
 });
 
 // Create (Register) New User
@@ -28,20 +28,15 @@ router.post('/', async (req, res) => {
     try {
         const userID = uuid.v4();
         const todays_date = new Date().getTime();
-        const { firstName, lastName, email, password, password2, role } = req.body;
-        const checkEmail = await pool.query( `SELECT * FROM users WHERE email = $1`,[email]);
+        const { firstName, lastName, email, role } = req.body;
         
-        if(!firstName || !lastName || !email || !password || !password2){
+        if(!firstName || !lastName || !email ){
             return res.status(400).json({msg: 'Please include all the required fields'});
-        } else if (password !== password2){
-            return res.status(400).json({msg: 'Passwords do not match'});
-        } else if (checkEmail.rows.length > 0) {
-            return res.status(400).json({msg: 'Email already registered'});
         }
 
         const newUser = await pool.query(
-            'INSERT INTO users (id, first_name, last_name, email, password, create_date, update_date, role) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
-            [userID, firstName, lastName, email, password, todays_date, todays_date, role]
+            'INSERT INTO users (id, first_name, last_name, email, create_date, update_date, role) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+            [userID, firstName, lastName, email, todays_date, todays_date, role]
         );
         res.json(newUser.rows[0]);
 

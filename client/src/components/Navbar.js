@@ -8,7 +8,7 @@ function Navbar() {
     <div className="App-navbar">
         {/* logo */}
         <div className="logo">
-          <a href="#" style={{color:"black"}}>
+          <a href="/" style={{color:"black"}}>
           Knit.</a>
         </div>
 

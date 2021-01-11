@@ -36,26 +36,26 @@ router.get('/:id', async (req, res) => {
 // Create New Project
 router.post('/', async (req, res) => {
     try {
+        const { creatorID, title, description, stage, types, interests } = req.body;
         const projectID = uuid.v4();
-        const creatorID = uuid.v4(); // get to get the current user's id
         const todays_date = new Date().getTime(); // technically int includes time too, not just date
     
-        if(!req.body.title || !req.body.description || !req.body.stage){
+        if(!title || !description || !stage){
             return res.status(400).json({msg: 'Please include all the required fields'});
         }
         const newProject = await pool.query(
             "INSERT INTO projects (id, creator_id, title, description, stage, create_date, update_date) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *",
-            [projectID, 'f7ad3e18-bd3d-4cc5-b53c-8cc8c96aac6d', req.body.title, req.body.description, req.body.stage, todays_date, todays_date]
+            [projectID, creatorID , title, description, stage, todays_date, todays_date]
         );
         
-        req.body.types.forEach(async (type) => {
+        types.forEach(async (type) => {
             const newProjectTypes = await pool.query(
                 "INSERT INTO project_types (project_id, type) VALUES ($1, $2) RETURNING *",
                 [projectID, type]
             );
         });
 
-        req.body.interests.forEach(async (interest) => {
+        interests.forEach(async (interest) => {
             const newProjectTypes = await pool.query(
                 "INSERT INTO interests (project_id, interest) VALUES ($1, $2) RETURNING *",
                 [projectID, interest]

@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-// import Button from '@material-ui/core/Button';
 
 import { Avatar, Button, Tag } from 'antd';
 import './projects.css';
@@ -59,17 +58,6 @@ function ProjectCard(props) {
                     <Button>Save</Button>
                     <Button type="primary">Apply</Button>
                 </div>
-
-                {/* team members */}
-                {/* <div style={{marginTop: 40}}>
-                    <p className="subheader">Team Members</p>
-                    <div>
-                        <Avatar size="large">{props.projects.title.charAt(0)}</Avatar>
-                        <Avatar size="large"></Avatar>
-                        <Avatar size="large"></Avatar>
-                        <Avatar size="large"></Avatar>
-                    </div>
-                </div> */}
             </div>
         </div>
 

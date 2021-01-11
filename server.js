@@ -1,15 +1,18 @@
 const express = require('express');
-// const projects = require('./Projects.js');
 const cors = require('cors');
 const pool = require('./db');
-const uuid = require('uuid');
 
 const app = express();
 
-// middleware
+
+// Middleware
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:3000',
+    credentials: true
+}));
+
 
 // Project API Routes (cleaned up routes)
 app.use('/api/projects', require('./routes/api/project_api'));
