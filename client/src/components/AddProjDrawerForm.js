@@ -140,9 +140,9 @@ const AddProjDrawerForm = () => {
                     labelInValue
                     onChange={handleTypeChange}
                   >
-                    <Option value="mobile" label="mobile">Mobile (iOS, Android)</Option>
-                    <Option value="web" label="web">Web (Website, Web-apps)</Option>
-                    <Option value="hardware" label="hardware">Hardware</Option>
+                    <Option value="Mobile" label="Mobile">Mobile (iOS, Android)</Option>
+                    <Option value="Web" label="Web">Web (Website, Web-apps)</Option>
+                    <Option value="Hardware" label="Hardware">Hardware</Option>
                   </Select>
                 </Form.Item>
               </Col>
@@ -159,10 +159,10 @@ const AddProjDrawerForm = () => {
                     labelInValue
                     onChange={handleInterestChange}
                     >
-                        <Option value="social" label="social">Social</Option>
-                        <Option value="crypto" label="crypto">Cryptocurrency</Option>
-                        <Option value="health" label="health">Health</Option>
-                        <Option value="ai" label="ai">Artificial Intelligence</Option>
+                        <Option value="Social" label="Social">Social</Option>
+                        <Option value="Crypto" label="Crypto">Cryptocurrency</Option>
+                        <Option value="Health" label="Health">Health</Option>
+                        <Option value="AI" label="AI">Artificial Intelligence</Option>
                     </Select>
                 </Form.Item>
               </Col>

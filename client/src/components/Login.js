@@ -1,22 +1,23 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 
+import './forms.css';
+import { Form, Input, Button, Alert } from 'antd';
+
 const Login = () => {
-    const emailRef = useRef();
-    const passwordRef = useRef();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const { login } = useAuth();
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const history = useHistory();
 
-    async function onSubmitForm (e) {
-        e.preventDefault();
-        
+    const onSubmitForm = async () => {
         try {
             setError('');
             setLoading(true);
-            await login(emailRef.current.value, passwordRef.current.value);
+            await login(email, password);
             history.push('/');
             
         } catch {
@@ -26,38 +27,63 @@ const Login = () => {
     }
     
     return (
-        <div>
-            <h1>Log In</h1>
-            {error && <h4>{error}</h4>}
-            <form onSubmit={onSubmitForm}>
-                <div>
-                    <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    placeholder="Email"
-                    required
-                    ref={emailRef}
-                    />
-                </div>
-                <div>
-                    <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    placeholder="Password"
-                    required
-                    ref={passwordRef}
-                    />
-                </div>
-                <button disabled={loading} type='submit'>Log In</button>
-                <div>
-                    Need an account? <Link to='/register'>Sign Up</Link>
-                </div>
-                
-            </form>
+        <div className='login' >
+            <h1 style={{fontSize: 36, fontWeight: 800}}>Log In</h1>
+            {error && 
+            <Alert
+                message={error}
+                type="error"
+                showIcon
+                style={{textAlign: 'left', width:'600px', margin:'auto'}}
+            />
+            }
 
-        
+            <Form
+                name="login"
+                initialValues={{
+                    remember: true,
+                }}
+                layout="vertical"
+            >   
+                <Form.Item
+                    label="Email"
+                    name="email"
+                    rules={[
+                    {
+                        required: true,
+                        message: 'Please input your email!',
+                    },
+                    ]}
+                    onChange={e => setEmail(e.target.value)}
+                >
+                    <Input placeholder="My Awesome Project"/>
+                </Form.Item>
+
+                <Form.Item
+                    label="Password"
+                    name="password"
+                    rules={[
+                    {
+                        required: true,
+                        message: 'Please input your password!',
+                    },
+                    ]}
+                    onChange={e => setPassword(e.target.value)}
+                >
+                    <Input.Password />
+                </Form.Item>
+            </Form>
+
+            <Button 
+                type="primary"
+                disable={loading.toString()} 
+                onClick={onSubmitForm}
+            >   Log In
+            </Button>
+            <div className='subtext'>
+                Dont have an account yet? <Link to='/register'>Join Knit</Link>
+            </div>
+
         </div>
         
     )

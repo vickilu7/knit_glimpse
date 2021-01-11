@@ -1,40 +1,41 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 
+import { Form, Input, Button, Alert, Row, Col } from 'antd';
+
 const Register = () => {
-    const emailRef = useRef();
-    const passwordRef = useRef();
-    const passwordConfirmRef = useRef();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmpassword, setConfirmPassword] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [role, setRole] = useState('');
+
     const { signup } = useAuth();
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const history = useHistory();
 
-    const firstNameRef = useRef();
-    const lastNameRef = useRef();
-    const roleRef = useRef();
+    const onSubmitForm = async () => {
 
-    async function onSubmitForm (e) {
-        e.preventDefault();
-
-        if (passwordRef.current.value.length <= 6){
+        if (password.length <= 6){
             return setError('Please use more than 6 characters for password');
-        } else if (passwordRef.current.value !== passwordConfirmRef.current.value){
+        } else if (password !== confirmpassword){
             return setError('Passwords do not match');
         }
         
         try {
             setError('');
             setLoading(true);
-            await signup(emailRef.current.value, passwordRef.current.value);
+            await signup(email, password);
 
             const body = 
             {
-                firstName: firstNameRef.current.value,
-                lastName: lastNameRef.current.value,
-                email: emailRef.current.value,
-                role: roleRef ? roleRef.current.value : ''
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                role: role ? role : ''
             }
 
             const response = await fetch("http://localhost:5000/api/users", {
@@ -47,67 +48,129 @@ const Register = () => {
 
             history.push('/');
         } catch {
-            setError('Failed to create account');
+            setError('Failed to create account, email taken.');
         }
         setLoading(false);
-         
     }
     
     return (
-        <div>
-            <h1>Register</h1>
-            {error && <h4>{error}</h4>}
-            <form onSubmit={onSubmitForm}>
-                <div>
-                    <input type="text" id="firstName" name="firstName" placeholder="First Name" 
-                    required ref={firstNameRef}/>
-                </div>
-                <div>
-                    <input type="text" id="lastName" name="lastName" placeholder="Last Name" 
-                    required ref={lastNameRef}/>
-                </div>
-                <div>
-                    <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    placeholder="Email"
-                    required
-                    ref={emailRef}
-                    />
-                </div>
-                <div>
-                    <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    placeholder="Password"
-                    required
-                    ref={passwordRef}
-                    />
-                </div>
-                <div>
-                    <input
-                    type="password"
-                    id="password2"
-                    name="password2"
-                    placeholder="Confirm Password"
-                    required
-                    ref={passwordConfirmRef}
-                    />
-                </div>
-                <div>
-                    <input type="text" id="role" name="role" placeholder="Role" 
-                    ref={roleRef}/>
-                </div>
-                <button disabled={loading} type='submit'>Register</button>
+        <div className='login'>
+            <h1 style={{fontSize: 36, fontWeight: 800}}>Sign Up for Knit</h1>
+            <p>Join other self-starters to bring your ideas to life.</p>
+            {error && 
+            <Alert
+                message={error}
+                type="error"
+                showIcon
+                style={{textAlign: 'left', width:'600px', margin:'auto'}}
+            />
+            }
 
-                <div>
-                Already registered? <Link to='/login'>Login here</Link>
-                </div>
+            <Form
+                name="register"
+                initialValues={{
+                    remember: true,
+                }}
+                layout="vertical"
+            >
+                <Row gutter={16}>
+                    <Col span={12}>
+                        <Form.Item
+                            label="First Name"
+                            name="firstname"
+                            rules={[
+                            {
+                                required: true,
+                                message: 'Please input your first name!',
+                            },
+                            ]}
+                            onChange={e => setFirstName(e.target.value)}
+                        >
+                            <Input placeholder="My Awesome Project"/>
+                        </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                        <Form.Item
+                            label="Last Name"
+                            name="lastname"
+                            rules={[
+                            {
+                                required: true,
+                                message: 'Please input your last name!',
+                            },
+                            ]}
+                            onChange={e => setLastName(e.target.value)}
+                        >
+                            <Input placeholder="My Awesome Project"/>
+                        </Form.Item>
+                    </Col>
+                </Row>
                 
-            </form>
+                <Form.Item
+                    label="Email"
+                    name="email"
+                    rules={[
+                    {
+                        required: true,
+                        message: 'Please input your email!',
+                    },
+                    ]}
+                    onChange={e => setEmail(e.target.value)}
+                >
+                    <Input placeholder="My Awesome Project"/>
+                </Form.Item>
 
+                <Form.Item
+                    label="Password"
+                    name="password"
+                    rules={[
+                    {
+                        required: true,
+                        message: 'Please input your password!',
+                    },
+                    ]}
+                    onChange={e => setPassword(e.target.value)}
+                >
+                    <Input.Password />
+                </Form.Item>
+
+                <Form.Item
+                    label="Confirm Password"
+                    name="confirmpassword"
+                    rules={[
+                    {
+                        required: true,
+                        message: 'Please input your password!',
+                    },
+                    ]}
+                    onChange={e => setConfirmPassword(e.target.value)}
+                >
+                    <Input.Password />
+                </Form.Item>
+
+                <Form.Item
+                    label="Role"
+                    name="role"
+                    onChange={e => setRole(e.target.value)}
+                >
+                    <Input placeholder="My Awesome Project"/>
+                </Form.Item>
+
+                <Form.Item>
+
+                </Form.Item>
+            </Form>
+
+            <Button 
+                type="primary"
+                disable={loading.toString()} 
+                onClick={onSubmitForm}
+            >   Create Account
+            </Button>
+            <div className='subtext'>
+                Already have an account? <Link to='/login'>Log In</Link>
+            </div>
+        
         
         </div>
         
