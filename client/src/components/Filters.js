@@ -1,76 +1,75 @@
 import React from 'react';
-
-import { Select, Button} from 'antd';
+import { Select } from 'antd';
 const { Option } = Select;
 
-//function Filters(props)
-function FiltersComponent() { 
-    // const handleChange = (type, value) => {
-    //   console.log(`selected ${type}.${value}`);
-    //   props.allFilterClickListener(type, value);
-    // }
+function FiltersComponent(props) {
+    var selectPlaceholder='';
+    var optionsList = [];
+
+    if (props.filterKind === 'Types'){
+      selectPlaceholder = 'Mobile, Web, etc...';
+      optionsList = [
+        {
+            placeholder : 'Mobile (iOS, Android)',
+            value : 'Mobile'
+        },
+        {
+            placeholder : 'Web (Website, Web-apps)',
+            value : 'Web'
+        },
+        {
+            placeholder : 'Hardware',
+            value : 'Hardware'
+        }
+      ];
+    } else if (props.filterKind === 'Interests'){
+      selectPlaceholder = 'Social, Finance, etc...';
+      optionsList = [
+        {
+            placeholder : 'Social',
+            value : 'Social'
+        },
+        {
+            placeholder : 'Cryptocurrency',
+            value : 'Crypto'
+        },
+        {
+            placeholder : 'Health',
+            value : 'Health'
+        },
+        {
+          placeholder : 'Artificial Intelligence',
+          value : 'AI'
+      }
+      ];
+    }
+
+    const renderOptionsList = () => optionsList.map( (option, index) => (
+        <React.Fragment key={index}>
+              <Option value={option.value} label={option.value}>
+                <div className="demo-option-label-item">
+                  {option.placeholder}
+                </div>
+              </Option>
+        </React.Fragment>
+    ))
+
     return (
-      <div className="App-filters">
-              {/* main filters button */}
-              <Button block>
-                  Filters
-              </Button>
+          <div style={{width: "inherit"}}>
+              <h1 className="section">{props.filterKind}</h1>
 
-              {/* filters list */}
-              <div style={{margin: "30px auto", width: "inherit"}}>
-                  <h1 className="section">Project Type</h1>
-                  <Select
-                    mode="multiple"
-                    className="filters-item"
-                    size="large"
-                    placeholder="Mobile, Web, etc."
-                    // onChange={(value) => handleChange("projectType", value)}
-                    optionLabelProp="label"
-                  >
-                    <Option value="mobile" label="Mobile">
-                      <div className="demo-option-label-item">
-                        Mobile (iOS, Android)
-                      </div>
-                    </Option>
-                    <Option value="web" label="Web">
-                      <div className="demo-option-label-item">
-                        Web (Website, Web-apps)
-                      </div>
-                    </Option>
-                    <Option value="game" label="Game">
-                      <div className="demo-option-label-item">
-                        Game
-                      </div>
-                    </Option>
-                  </Select>
+              <Select
+                mode="multiple"
+                className="filters-item"
+                size="large"
+                placeholder={selectPlaceholder}
+                optionLabelProp="label"
+                onChange={(value) => props.handleFilters(value)}
+              >
+                {renderOptionsList()}
+              </Select>
 
-                  <h1 className="section">Interest</h1>
-                  <Select
-                    mode="multiple"
-                    className="filters-item"
-                    size="large"
-                    placeholder="Health, Finance, etc."
-                    // onChange={(value) => handleChange("interest", value)}
-                    optionLabelProp="label"
-                  >
-                    <Option value="health" label="Health">
-                      <div className="demo-option-label-item">
-                        Health
-                      </div>
-                    </Option>
-                    <Option value="finance" label="Finance">
-                      <div className="demo-option-label-item">
-                        Finance
-                      </div>
-                    </Option>
-                    <Option value="gaming" label="Gaming">
-                      <div className="demo-option-label-item">
-                        Gaming
-                      </div>
-                    </Option>
-                  </Select>
-              </div>
-      </div>
+          </div>
     );
 }
 

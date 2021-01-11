@@ -1,10 +1,13 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
+import {useAuth} from '../AuthContext';
 import 'antd/dist/antd.css';
 import { Drawer, Form, Button, Col, Row, Input, Select} from 'antd';
 
 const { Option } = Select;
 
 const AddProjDrawerForm = () => {
+  const { currentUser } = useAuth();
+  const [user, setUser] = useState({});
   const [visible, setVisible] = useState('');
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -18,6 +21,15 @@ const AddProjDrawerForm = () => {
   const handleTypeChange = types => {typeArray = types}
   const handleInterestChange = interests => {interestArray = interests}
 
+  useEffect(()=> {
+    async function getCurrentUserInfo(){
+        const response = await fetch(`api/users/${currentUser.email}`);
+        const jsonData = await response.json();
+        setUser(jsonData);
+    }
+      getCurrentUserInfo();
+  }, [currentUser.email]);
+
   const onSubmitForm = async () => {
     try {
         const t = [];
@@ -26,6 +38,7 @@ const AddProjDrawerForm = () => {
         interestArray.forEach(interest => i.push(interest.value));
 
         const body = {
+            creatorID : user.id,
             title: title,
             description : description,
             stage : stage,
@@ -33,7 +46,7 @@ const AddProjDrawerForm = () => {
             interests: i
         }
         
-        const response = await fetch("/api/projects", {
+        await fetch("/api/projects", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(body)

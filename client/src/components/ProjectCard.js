@@ -1,30 +1,36 @@
 import React, {useEffect, useState} from 'react';
-// import Button from '@material-ui/core/Button';
-
 import { Avatar, Button, Tag } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
 import './projects.css';
 
 function ProjectCard(props) {
     const [user, setUser] = useState([]);
     const [interests, setInterests] = useState([]);
 
-    const getUser = async () => {
-      const response = await fetch(`/api/users/${props.projects.creator_id}`);
-      const jsonData = await response.json();
-      setUser(jsonData);
-    }
-
-    const getInterests = async () => {
-      const response = await fetch(`/api/projects/${props.projects.id}`);
-      const jsonData = await response.json();
-      setInterests(jsonData);
-    }
-
     useEffect(()=> {
+      const getUser = async () => {
+        try {
+          const response = await fetch(`/api/users/${props.projects.creator_id}`);
+          const jsonData = await response.json();
+          setUser(jsonData);
+        } catch (err) {
+          console.error(err.message);
+        }
+      }
+  
+      const getInterests = async () => {
+        try {
+          const response = await fetch(`/api/projects/${props.projects.id}`);
+          const jsonData = await response.json();
+          setInterests(jsonData);          
+        } catch (err) {
+          console.error(err.message);
+        }
+      }
+
       getUser();
       getInterests();
-    }, []);
-
+    }, [props.projects]);
 
     return (
         <div className="card">
@@ -43,10 +49,9 @@ function ProjectCard(props) {
               {/* user who posted */}
               <div className="proj-speaker">
                   <Avatar style={{
-                    color: '#f56a00', backgroundColor: '#fde3cf', marginRight: "8px" }}>
-                      {/* {user.first_name.charAt(0)}{user.last_name.charAt(0)} */}
-                      {user.first_name}
-                  </Avatar>
+                    color: '#f56a00', backgroundColor: '#fde3cf', marginRight: "8px" }}
+                    icon={<UserOutlined />}
+                  />
                   <div className="subtext">
                     {user.first_name} {user.last_name}, {user.role}
                 </div>
@@ -59,17 +64,6 @@ function ProjectCard(props) {
                     <Button>Save</Button>
                     <Button type="primary">Apply</Button>
                 </div>
-
-                {/* team members */}
-                {/* <div style={{marginTop: 40}}>
-                    <p className="subheader">Team Members</p>
-                    <div>
-                        <Avatar size="large">{props.projects.title.charAt(0)}</Avatar>
-                        <Avatar size="large"></Avatar>
-                        <Avatar size="large"></Avatar>
-                        <Avatar size="large"></Avatar>
-                    </div>
-                </div> */}
             </div>
         </div>
 
