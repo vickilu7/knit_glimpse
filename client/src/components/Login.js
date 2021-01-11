@@ -27,7 +27,7 @@ const Login = () => {
     }
     
     return (
-        <div className='login' >
+        <div className='container' >
             <h1 style={{fontSize: 36, fontWeight: 800}}>Log In</h1>
             {error && 
             <Alert

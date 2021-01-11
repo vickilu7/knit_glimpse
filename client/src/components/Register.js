@@ -54,7 +54,7 @@ const Register = () => {
     }
     
     return (
-        <div className='login'>
+        <div className='container'>
             <h1 style={{fontSize: 36, fontWeight: 800}}>Sign Up for Knit</h1>
             <p>Join other self-starters to bring your ideas to life.</p>
             {error && 
