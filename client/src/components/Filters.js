@@ -11,15 +11,15 @@ function FiltersComponent(props) {
       optionsList = [
         {
             placeholder : 'Mobile (iOS, Android)',
-            value : 'mobile'
+            value : 'Mobile'
         },
         {
             placeholder : 'Web (Website, Web-apps)',
-            value : 'web'
+            value : 'Web'
         },
         {
             placeholder : 'Hardware',
-            value : 'hardware'
+            value : 'Hardware'
         }
       ];
     } else if (props.filterKind === 'Interests'){
@@ -27,19 +27,19 @@ function FiltersComponent(props) {
       optionsList = [
         {
             placeholder : 'Social',
-            value : 'social'
+            value : 'Social'
         },
         {
             placeholder : 'Cryptocurrency',
-            value : 'crypto'
+            value : 'Crypto'
         },
         {
             placeholder : 'Health',
-            value : 'health'
+            value : 'Health'
         },
         {
           placeholder : 'Artificial Intelligence',
-          value : 'ai'
+          value : 'AI'
       }
       ];
     }

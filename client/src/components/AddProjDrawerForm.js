@@ -22,14 +22,13 @@ const AddProjDrawerForm = () => {
   const handleInterestChange = interests => {interestArray = interests}
 
   useEffect(()=> {
+    async function getCurrentUserInfo(){
+        const response = await fetch(`api/users/${currentUser.email}`);
+        const jsonData = await response.json();
+        setUser(jsonData);
+    }
       getCurrentUserInfo();
-  }, []);
-
-  async function getCurrentUserInfo(){
-      const response = await fetch(`api/users/${currentUser.email}`);
-      const jsonData = await response.json();
-      setUser(jsonData);
-  }
+  }, [currentUser.email]);
 
   const onSubmitForm = async () => {
     try {

@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const uuid = require('uuid');
-const pool = require('../../db');
+const pool = require('../db');
 
 // Get ALL Projects
 router.get('/', async (req, res) => {

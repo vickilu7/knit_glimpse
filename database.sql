@@ -1,6 +1,7 @@
 CREATE DATABASE knit;
 
-CREATE TABLE users(
+CREATE TABLE IF NOT EXISTS users(
+    -- Required
     id              UUID PRIMARY KEY,
     first_name      TEXT NOT NULL,
     last_name       TEXT NOT NULL,
@@ -8,22 +9,13 @@ CREATE TABLE users(
     create_date     BIGINT NOT NULL,
     update_date     BIGINT NOT NULL,
 
+    -- Optional
     photo_path      TEXT,
     bio             TEXT,
     role            TEXT
 );
 
--- sample 
--- INSERT INTO users (id, first_name, last_name, email, password, create_date, update_date, role) 
--- VALUES ('f7ad3e18-bd3d-4cc5-b53c-8cc8c96aac6d', 'Adam', 'Smith', 'asmith@gmail.com', 'password123', 11111, 55555, 'Product Designer') RETURNING *;
-
--- UPDATE users SET role = 'Software Engineer' WHERE id = 'ee0b9ff9-1697-4a33-8151-b1c9031d66a3';
-
-
-
-
-CREATE TABLE projects(
-    -- Required
+CREATE TABLE IF NOT EXISTS projects(
     id              UUID PRIMARY KEY,
     creator_id      UUID NOT NULL REFERENCES users(id), -- foreign key to users
     title           TEXT NOT NULL,
@@ -32,12 +24,10 @@ CREATE TABLE projects(
     create_date     BIGINT NOT NULL,
     update_date     BIGINT NOT NULL,
 
-    -- Optional
     location        TEXT,
     commitment      TEXT,
     culture         TEXT
 );
-
 
 CREATE TABLE IF NOT EXISTS project_types
 (
@@ -60,6 +50,12 @@ CREATE TABLE IF NOT EXISTS interests
 );
 
 
+
+-- sample queries
+-- INSERT INTO users (id, first_name, last_name, email, password, create_date, update_date, role) 
+-- VALUES ('f7ad3e18-bd3d-4cc5-b53c-8cc8c96aac6d', 'Adam', 'Smith', 'asmith@gmail.com', 'password123', 11111, 55555, 'Product Designer') RETURNING *;
+
+-- UPDATE users SET role = 'Software Engineer' WHERE id = 'ee0b9ff9-1697-4a33-8151-b1c9031d66a3';
 
 -- SELECT DISTINCT ON (p.id) * FROM projects p
 -- INNER JOIN interests i ON p.id=i.project_id 

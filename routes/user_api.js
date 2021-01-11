@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const uuid = require('uuid');
-const pool = require('../../db');
+const pool = require('../db');
 
 // Get All Users
 router.get('/', async (req, res) => {
@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
 router.get('/:identifier', async (req, res) => {
     const identifier = req.params.identifier;
     const type = identifier.indexOf("@") !== -1 ? 'email' : 'id';
-    console.log(type === 'email' ? 'Existing email: ' + identifier : 'User: ' + identifier);
+
     const user = type === 'email' ? await pool.query("SELECT * FROM users WHERE email=$1", [identifier])
         : await pool.query("SELECT * FROM users WHERE id=$1", [identifier]);
     res.json(user.rows[0]);

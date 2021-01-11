@@ -1,4 +1,3 @@
-// The Page for the Home/Landing
 import React, {useEffect, useState} from 'react';
 import {useHistory} from 'react-router-dom';
 import {useAuth} from '../AuthContext';
@@ -11,33 +10,21 @@ import { ReactComponent as HeroImage} from './hero.svg';
 import AddProjDrawerForm from './AddProjDrawerForm.js';
 
 
-const ListProjects = () => {
-    const history = useHistory();
-
-    async function handleLogout(){
-        setError('');
-        try {
-            await logout();
-            history.push('/login');
-            
-        } catch {
-            setError('Failed to log out');
-        }
-    }
-
-    // initial states
-    const [error, setError] = useState('');
+const Homepage = () => {
     const { currentUser, logout } = useAuth();
+    const [user, setUser] = useState({});
+    const history = useHistory();
+    const [error, setError] = useState('');
     const [projects, setProjects] = useState([]); 
-    const allInterests = ['social', 'crypto', 'health','ai'];
-    const allTypes = ['mobile', 'web', 'hardware'];
+    const allInterests = ['Social', 'Crypto', 'Health','AI'];
+    const allTypes = ['Mobile', 'Web', 'Hardware'];
     const [Filters, setFilters] = useState({
-        "interests": ['social', 'crypto', 'health','ai'],
-        "types": ['mobile', 'web', 'hardware']
+        "interests": allInterests,
+        "types": allTypes
     });
-    const [user, setUser] = useState({}); //testing purposes
+    
 
-    //delete
+    // delete
     const deleteProject = async (id) => {
         try {
             const delProject = await fetch(`/api/projects/${id}`,{
@@ -50,11 +37,21 @@ const ListProjects = () => {
             console.error(err.message);
         }
     }
+    async function handleLogout(){
+        setError('');
+        try {
+            await logout();
+            history.push('/login');
+            
+        } catch {
+            setError('Failed to log out');
+        }
+    }
 
     const getProjects = async (f) => {
         try {
             const queryString = new URLSearchParams(f).toString();
-            console.log(queryString);
+            // console.log(queryString);
             const response = await fetch(`api/projects?${queryString}`);
             
             const jsonData = await response.json();
@@ -66,15 +63,19 @@ const ListProjects = () => {
         }
     }
     useEffect(()=> {
-        getProjects(Filters);
-        getRole(); //testing
-    }, []);
+        async function getUser(){
+            try {
+                const response = await fetch(`api/users/${currentUser.email}`);
+                const jsonData = await response.json();
+                setUser(jsonData);
+            } catch (err) {
+                console.error(err.message);
+            }
+        }
 
-    async function getRole(){
-        const response = await fetch(`api/users/${currentUser.email}`);
-        const jsonData = await response.json();
-        setUser(jsonData);
-    }
+        getProjects(Filters);
+        getUser();
+    }, [Filters, currentUser]);
 
     const handleFilters = (filters, category) => {
         const newFilters = {...Filters};
@@ -99,7 +100,7 @@ const ListProjects = () => {
                     {/* stuff on left */}
                     <div style={{width: 600}}>
                         <h1 style={{fontSize: 56, fontWeight: 700}}>
-                            Catchy Header Maybe Two Lines
+                            Catchy Header Maybe Two Lines, Welcome {user.first_name} {user.last_name}!
                         </h1>
 
                         <p style={{marginBottom: 60}}>
@@ -111,7 +112,7 @@ const ListProjects = () => {
                     </div>
 
                     {/* hero image */}
-                    <HeroImage height="auto"/>
+                    <HeroImage height='100%'/>
                 </div>
 
                 <div className = 'project-space'>
@@ -128,8 +129,6 @@ const ListProjects = () => {
                         />
 
                         <button onClick={handleLogout}>Log Out</button>
-                        <h3>Email: {currentUser.email}</h3>
-                        <h4>Role Info: {user.role}</h4>
                         <h1>Personal Control Panel lol</h1>
                         <table>
                             <thead>
@@ -163,4 +162,4 @@ const ListProjects = () => {
     )
 };
 
-export default ListProjects;
+export default Homepage;

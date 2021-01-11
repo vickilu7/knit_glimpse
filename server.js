@@ -1,9 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const pool = require('./db');
-
 const app = express();
-
 
 // Middleware
 app.use(express.json());
@@ -13,12 +10,11 @@ app.use(cors({
     credentials: true
 }));
 
-
 // Project API Routes (cleaned up routes)
-app.use('/api/projects', require('./routes/api/project_api'));
+app.use('/api/projects', require('./routes/project_api'));
 
 // User API Routes
-app.use('/api/users', require ('./routes/api/user_api'));
+app.use('/api/users', require ('./routes/user_api'));
 
 
 const port = 5000;

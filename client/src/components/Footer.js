@@ -1,11 +1,7 @@
 import React from 'react';
 
 import { Button } from 'antd';
-import {
-  MailOutlined,
-  PhoneOutlined,
-  AimOutlined,
-} from '@ant-design/icons';
+import { MailOutlined, PhoneOutlined, AimOutlined } from '@ant-design/icons';
 
 function Footer() {
   return (
