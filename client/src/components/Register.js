@@ -3,6 +3,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 
 import { Form, Input, Button, Alert, Row, Col } from 'antd';
+import { ReactComponent as BGImage} from './reg.svg';
 
 const Register = () => {
     const [email, setEmail] = useState('');
@@ -54,6 +55,7 @@ const Register = () => {
     }
     
     return (
+        <div>
         <div className='container'>
             <h1 style={{fontSize: 36, fontWeight: 800}}>Sign Up for Knit</h1>
             <p>Join other self-starters to bring your ideas to life.</p>
@@ -62,7 +64,7 @@ const Register = () => {
                 message={error}
                 type="error"
                 showIcon
-                style={{textAlign: 'left', width:'600px', margin:'auto'}}
+                className='alert'  
             />
             }
 
@@ -72,6 +74,7 @@ const Register = () => {
                     remember: true,
                 }}
                 layout="vertical"
+                className="form"
             >
                 <Row gutter={16}>
                     <Col span={12}>
@@ -86,7 +89,7 @@ const Register = () => {
                             ]}
                             onChange={e => setFirstName(e.target.value)}
                         >
-                            <Input placeholder="My Awesome Project"/>
+                            <Input placeholder="Hello"/>
                         </Form.Item>
                     </Col>
                     <Col span={12}>
@@ -101,7 +104,7 @@ const Register = () => {
                             ]}
                             onChange={e => setLastName(e.target.value)}
                         >
-                            <Input placeholder="My Awesome Project"/>
+                            <Input placeholder="World"/>
                         </Form.Item>
                     </Col>
                 </Row>
@@ -117,7 +120,7 @@ const Register = () => {
                     ]}
                     onChange={e => setEmail(e.target.value)}
                 >
-                    <Input placeholder="My Awesome Project"/>
+                    <Input placeholder="helloworld@email.com"/>
                 </Form.Item>
 
                 <Form.Item
@@ -153,11 +156,7 @@ const Register = () => {
                     name="role"
                     onChange={e => setRole(e.target.value)}
                 >
-                    <Input placeholder="My Awesome Project"/>
-                </Form.Item>
-
-                <Form.Item>
-
+                    <Input placeholder="Developer, designer, student, etc..."/>
                 </Form.Item>
             </Form>
 
@@ -165,15 +164,15 @@ const Register = () => {
                 type="primary"
                 disable={loading.toString()} 
                 onClick={onSubmitForm}
+                className='btn-action'
             >   Create Account
             </Button>
             <div className='subtext'>
-                Already have an account? <Link to='/login'>Log In</Link>
+                Already have an account? <Link to='/login' id='link'>Log In</Link>
             </div>
-        
-        
         </div>
-        
+        <image><BGImage /></image>
+        </div>
     )
 }
 

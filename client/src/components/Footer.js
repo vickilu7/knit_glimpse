@@ -1,9 +1,22 @@
 import React from 'react';
+import {useHistory} from 'react-router-dom';
+import {useAuth} from '../AuthContext';
 
 import { Button } from 'antd';
 import { MailOutlined, PhoneOutlined, AimOutlined } from '@ant-design/icons';
 
 function Footer() {
+  const { logout } = useAuth();
+  const history = useHistory();
+  async function handleLogout(){
+    try {
+      await logout();
+      history.push('/login');
+    } catch (err) {
+        console.log(err.message);
+    }
+}
+
   return (
     <div className="App-footer">
           {/* logo */}
@@ -13,18 +26,14 @@ function Footer() {
           <div style={{width: 500}}>
             <div className="section">About</div>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
-              ut aliquip ex ea commodo consequat.
+              Our vision is to connect self-starters to bring ideas to life. There
+              is lost opportunity and a gap between people who have ideas and 
+              people who want something to work on. Knit aims to help people find
+              peers to collaborate with.
             </p>
             <div style={{marginTop: 30}}>
-              {/*fix this marginRight later*/}
-              <Button style={{marginRight:25}}>
-                Log In
-              </Button>
-              <Button type="primary">
-                  Sign Up
+              <Button type="primary" onClick={handleLogout}>
+                  Log Out
               </Button>
             </div>
           </div>
@@ -32,7 +41,7 @@ function Footer() {
           {/* contact */}
           <div>
             <div className="section">Contact</div>
-            <p><MailOutlined />  email@email.com</p>
+            <p><MailOutlined />  knit@gmail.com</p>
             <p><PhoneOutlined /> +1 (123) 456-7890</p>
             <p><AimOutlined /> Address City, NJ 00000</p>
           </div>

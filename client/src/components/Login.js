@@ -4,6 +4,7 @@ import { useAuth } from '../AuthContext';
 
 import './forms.css';
 import { Form, Input, Button, Alert } from 'antd';
+import { ReactComponent as BGImage} from './reg.svg';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -27,6 +28,7 @@ const Login = () => {
     }
     
     return (
+        <div>
         <div className='container' >
             <h1 style={{fontSize: 36, fontWeight: 800}}>Log In</h1>
             {error && 
@@ -34,7 +36,7 @@ const Login = () => {
                 message={error}
                 type="error"
                 showIcon
-                style={{textAlign: 'left', width:'600px', margin:'auto'}}
+                className='alert'                
             />
             }
 
@@ -44,6 +46,7 @@ const Login = () => {
                     remember: true,
                 }}
                 layout="vertical"
+                className="form"
             >   
                 <Form.Item
                     label="Email"
@@ -56,7 +59,7 @@ const Login = () => {
                     ]}
                     onChange={e => setEmail(e.target.value)}
                 >
-                    <Input placeholder="My Awesome Project"/>
+                    <Input placeholder="helloworld@email.com"/>
                 </Form.Item>
 
                 <Form.Item
@@ -78,12 +81,14 @@ const Login = () => {
                 type="primary"
                 disable={loading.toString()} 
                 onClick={onSubmitForm}
+                className='btn-action'
             >   Log In
             </Button>
             <div className='subtext'>
-                Dont have an account yet? <Link to='/register'>Join Knit</Link>
+                Dont have an account yet? <Link to='/register' id='link'>Join Knit</Link>
             </div>
-
+        </div>
+        <image><BGImage /></image>
         </div>
         
     )

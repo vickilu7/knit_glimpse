@@ -32,6 +32,16 @@ function ProjectCard(props) {
       getInterests();
     }, [props.projects]);
 
+    const getTagColor = (interest) => {
+      const tagMappings = {
+        'Social':'#E0C8FB',
+        'Crypto': '#F9E8C5',
+        'Health' : '#D8FAFA',
+        'AI' : '#FDE3CF'
+      }
+      return tagMappings[interest];
+    }
+
     return (
         <div className="card">
             <div style={{width: 600}}>
@@ -40,7 +50,12 @@ function ProjectCard(props) {
 
               {/* tags */}
               <div style={{marginBottom: 36}}>
-                  {interests.map(i => <Tag color="#E0C8FB" className="proj-tags" key={i.interest}>{ i.interest }</Tag>)}
+                  {interests.map(i => 
+                  <Tag id="proj-tags" 
+                    style={{backgroundColor: getTagColor(i.interest)}}
+                    key={i.interest}>
+                      { i.interest }
+                  </Tag>)}
               </div>
 
               {/* description */}
@@ -49,7 +64,7 @@ function ProjectCard(props) {
               {/* user who posted */}
               <div className="proj-speaker">
                   <Avatar style={{
-                    color: '#f56a00', backgroundColor: '#fde3cf', marginRight: "8px" }}
+                    color: '#FFF', backgroundColor: '#A1A1A1', marginRight: "8px" }}
                     icon={<UserOutlined />}
                   />
                   <div className="subtext">

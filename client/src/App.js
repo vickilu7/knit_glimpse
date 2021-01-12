@@ -7,7 +7,6 @@ import Homepage from './components/Homepage';
 import Register from './components/Register';
 import Login from './components/Login';
 
-// import './App.css';
 import './App.less';
 import './components/fonts.css';
 

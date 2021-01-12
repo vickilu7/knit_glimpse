@@ -61,7 +61,7 @@ function FiltersComponent(props) {
               <Select
                 mode="multiple"
                 className="filters-item"
-                size="large"
+                size="medium"
                 placeholder={selectPlaceholder}
                 optionLabelProp="label"
                 onChange={(value) => props.handleFilters(value)}

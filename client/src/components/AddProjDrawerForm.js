@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useAuth} from '../AuthContext';
-import 'antd/dist/antd.css';
+import './forms.css';
 import { Drawer, Form, Button, Col, Row, Input, Select} from 'antd';
 
 const { Option } = Select;
@@ -62,7 +62,7 @@ const AddProjDrawerForm = () => {
 
   return (
       <>
-        <Button type="primary" onClick={showDrawer}>
+        <Button onClick={showDrawer}>
             Add a Project Idea
         </Button>
         <Drawer
@@ -77,7 +77,7 @@ const AddProjDrawerForm = () => {
                 textAlign: 'right',
               }}
             >
-              <Button onClick={onClose} style={{ marginRight: 8 }}>
+              <Button onClick={onClose} style={{ marginRight: 12 }}>
                 Cancel
               </Button>
               <Button onClick={onSubmitForm} type="primary">

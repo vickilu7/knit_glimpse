@@ -8,3 +8,28 @@
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
 }
+
+.form{
+    font-weight: 700;
+}
+
+.btn-action{
+    margin: 20px auto;
+}
+
+#link{
+    font-weight: 700;
+}
+#link:hover{
+    color: #2B44FF;
+}
+
+image {
+    position: absolute;
+    bottom: 0;
+    z-index: -1;
+}
+
+.alert{
+    text-align: left;
+}

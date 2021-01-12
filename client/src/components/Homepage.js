@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import {useHistory} from 'react-router-dom';
 import {useAuth} from '../AuthContext';
 
 import ProjectCard from './ProjectCard.js';
@@ -9,20 +8,19 @@ import Footer from './Footer.js';
 import { ReactComponent as HeroImage} from './hero.svg';
 import AddProjDrawerForm from './AddProjDrawerForm.js';
 
+import { Divider } from 'antd';
 
 const Homepage = () => {
-    const { currentUser, logout } = useAuth();
+    const { currentUser } = useAuth();
     const [user, setUser] = useState({});
-    const history = useHistory();
-    const [error, setError] = useState('');
     const [projects, setProjects] = useState([]); 
+    const [projCount, setProjCount] = useState(0);
     const allInterests = ['Social', 'Crypto', 'Health','AI'];
     const allTypes = ['Mobile', 'Web', 'Hardware'];
     const [Filters, setFilters] = useState({
         "interests": allInterests,
         "types": allTypes
     });
-    
 
     // delete
     const deleteProject = async (id) => {
@@ -37,25 +35,14 @@ const Homepage = () => {
             console.error(err.message);
         }
     }
-    async function handleLogout(){
-        setError('');
-        try {
-            await logout();
-            history.push('/login');
-            
-        } catch {
-            setError('Failed to log out');
-        }
-    }
 
     const getProjects = async (f) => {
         try {
             const queryString = new URLSearchParams(f).toString();
             // console.log(queryString);
             const response = await fetch(`api/projects?${queryString}`);
-            
             const jsonData = await response.json();
-
+            setProjCount(jsonData.length);
             setProjects(jsonData);
             
         } catch (err) {
@@ -92,7 +79,6 @@ const Homepage = () => {
 
     return(
         <div>
-            {error && <h4>{error}</h4>}
             <Navbar/>
             <div className = 'content'>
                 
@@ -100,12 +86,12 @@ const Homepage = () => {
                     {/* stuff on left */}
                     <div style={{width: 600}}>
                         <h1 style={{fontSize: 56, fontWeight: 700}}>
-                            Catchy Header Maybe Two Lines, Welcome {user.first_name} {user.last_name}!
+                            Welcome back, {user.first_name}!
                         </h1>
 
                         <p style={{marginBottom: 60}}>
-                            Discover what your next dream team is working on or create an idea of your own!
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                            Discover what your next dream team is working on or create an idea of your own.
+                            There are currently <b>{projCount}</b> available projects for you to work on in Knit.
                         </p>
 
                         <AddProjDrawerForm/>
@@ -117,7 +103,8 @@ const Homepage = () => {
 
                 <div className = 'project-space'>
                     <div className="App-filters">
-                        <div className='subheader'>Filter By</div>
+                        <div className='subheader' style={{marginBottom: 0}}>Filter Projects By</div>
+                        <Divider/>
 
                         <FiltersComponent
                             handleFilters={filters => handleFilters(filters, "interests")}
@@ -128,7 +115,6 @@ const Homepage = () => {
                             filterKind="Types"
                         />
 
-                        <button onClick={handleLogout}>Log Out</button>
                         <h1>Personal Control Panel lol</h1>
                         <table>
                             <thead>
