@@ -10,7 +10,9 @@ npm install postgresql
 ```
 
 First time set up for database:
-`psql postgres`
+```
+psql postgres
+```
 Then run all the commands in the **database.sql** file in the knit_glimpse repo.
 
 First time set up for project. In the knit_glimpse repo:
@@ -22,5 +24,7 @@ npm install
 
 ## Run
 In the main knit_glimpse repo, run
-`npm run dev`
+```
+npm run dev
+```
 this should concurrently start the backend and client side server
