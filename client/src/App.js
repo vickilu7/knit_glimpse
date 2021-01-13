@@ -4,11 +4,11 @@ import PrivateRoute from './components/PrivateRoute';
 import { AuthProvider } from './AuthContext';
 
 import Homepage from './components/Homepage';
-import Register from './components/Register';
-import Login from './components/Login';
+import Register from './components/forms/Register';
+import Login from './components/forms/Login';
 
 import './App.less';
-import './components/fonts.css';
+import './fonts.css';
 
 class App extends React.Component {
   render(){

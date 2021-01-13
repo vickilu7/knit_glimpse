@@ -7,7 +7,8 @@
     "start": "node server.js",
     "server": "nodemon server.js",
     "client": "cd client && npm start",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "test": "jest"
   },
   "author": "",
   "license": "ISC",
@@ -26,6 +27,7 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "jest": "^26.6.3",
     "nodemon": "^2.0.6"
   }
 }

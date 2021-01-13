@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { useAuth } from '../AuthContext';
+import { useAuth } from '../../AuthContext';
 
 import './forms.css';
 import { Form, Input, Button, Alert } from 'antd';
-import { ReactComponent as BGImage} from './reg.svg';
+import { ReactComponent as BGImage} from '../assets/reg.svg';
 
 const Login = () => {
     const [email, setEmail] = useState('');

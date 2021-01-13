@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {useAuth} from '../AuthContext';
 
-import ProjectCard from './ProjectCard.js';
+import ProjectCard from './projects/ProjectCard.js';
 import Navbar from './Navbar.js';
 import FiltersComponent from './Filters.js';
 import Footer from './Footer.js';
-import { ReactComponent as HeroImage} from './hero.svg';
-import AddProjDrawerForm from './AddProjDrawerForm.js';
+import { ReactComponent as HeroImage} from './assets/hero.svg';
+import AddProjDrawerForm from './forms/AddProjDrawerForm.js';
 
 import { Divider } from 'antd';
 

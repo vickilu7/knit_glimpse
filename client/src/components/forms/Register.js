@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { useAuth } from '../AuthContext';
+import { useAuth } from '../../AuthContext';
 
 import { Form, Input, Button, Alert, Row, Col } from 'antd';
-import { ReactComponent as BGImage} from './reg.svg';
+import { ReactComponent as BGImage} from '../assets/reg.svg';
 
 const Register = () => {
     const [email, setEmail] = useState('');

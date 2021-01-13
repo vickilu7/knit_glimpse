@@ -1,4 +1,4 @@
-CREATE DATABASE knit;
+CREATE DATABASE knit2;
 
 CREATE TABLE IF NOT EXISTS users(
     -- Required
@@ -48,16 +48,3 @@ CREATE TABLE IF NOT EXISTS interests
         REFERENCES projects(id)
         ON DELETE CASCADE
 );
-
-
-
--- sample queries
--- INSERT INTO users (id, first_name, last_name, email, password, create_date, update_date, role) 
--- VALUES ('f7ad3e18-bd3d-4cc5-b53c-8cc8c96aac6d', 'Adam', 'Smith', 'asmith@gmail.com', 'password123', 11111, 55555, 'Product Designer') RETURNING *;
-
--- UPDATE users SET role = 'Software Engineer' WHERE id = 'ee0b9ff9-1697-4a33-8151-b1c9031d66a3';
-
--- SELECT DISTINCT ON (p.id) * FROM projects p
--- INNER JOIN interests i ON p.id=i.project_id 
--- INNER JOIN project_types t ON p.id = t.project_id
--- WHERE i.interest IN ('health', 'ai') AND t.type IN ('web');
