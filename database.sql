@@ -1,5 +1,3 @@
-CREATE DATABASE knit2;
-
 CREATE TABLE IF NOT EXISTS users(
     -- Required
     id              UUID PRIMARY KEY,

@@ -4,9 +4,6 @@
   "private": true,
   "dependencies": {
     "@craco/craco": "^6.0.0",
-    "@testing-library/jest-dom": "^5.11.8",
-    "@testing-library/react": "^11.2.2",
-    "@testing-library/user-event": "^12.6.0",
     "antd": "^4.10.2",
     "craco-antd": "^1.19.0",
     "craco-less": "^1.17.1",
@@ -42,6 +39,5 @@
     ]
   },
   "devDependencies": {
-    "jest": "^26.6.3"
   }
 }
