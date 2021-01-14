@@ -4,8 +4,8 @@
 
 You need **Node**, **Express**, and **Postgres** if you don't have them already.
 ```
-npm install node
-npm install express
+npm install node -g
+npm install express -g
 brew install postgresql
 ```
 
