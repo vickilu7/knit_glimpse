@@ -14,7 +14,7 @@ First time set up for database:
 brew services start postgres 
 psql postgres
 ```
-If you get an error: role postgres does not exist, try running `/usr/local/opt/postgres/bin/createuser -s postgres`
+If you get an `error: role postgres does not exist`, try running `/usr/local/opt/postgres/bin/createuser -s postgres`
 
 ```
 CREATE DATABASE knit2;
