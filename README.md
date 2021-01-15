@@ -14,6 +14,9 @@ First time set up for database:
 brew services start postgres 
 psql postgres
 ```
+If you get an error `Is the server running locally and accepting
+    connections on Unix domain socket "/tmp/.s.PGSQL.5432"?`, it might be an issue with homebrew installing postgres on the Mac. Follow the instructions in the first/second answers from this [post](https://stackoverflow.com/questions/27700596/homebrew-postgres-broken).
+
 If you get an `error: role postgres does not exist`, try running `/usr/local/opt/postgres/bin/createuser -s postgres`
 
 ```
