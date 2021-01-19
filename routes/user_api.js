@@ -1,7 +1,9 @@
 const express = require('express');
+const Joi = require('joi');
 const router = express.Router();
 const uuid = require('uuid');
 const pool = require('../db');
+const { authSchema } = require('./validation_schema');
 
 // Get All Users
 router.get('/', async (req, res) => {
@@ -30,9 +32,11 @@ router.get('/:identifier', async (req, res) => {
 // Create (Register) New User
 router.post('/', async (req, res) => {
     try {
+        const val = await authSchema.validateAsync(req.body);
+
         const userID = uuid.v4();
         const todays_date = new Date().getTime();
-        const { firstName, lastName, email, role } = req.body;
+        const { firstName, lastName, email, role } = val;
         
         if(!firstName || !lastName || !email ){
             return res.status(400).json({msg: 'Please include all the required fields'});
@@ -45,6 +49,9 @@ router.post('/', async (req, res) => {
         res.json(newUser.rows[0]);
 
     } catch (err) {
+        if (Joi.isError(err) === true) {
+            res.status(422).json({msg : err.details[0].message});
+        }
         console.error(err.message);
     }
 });

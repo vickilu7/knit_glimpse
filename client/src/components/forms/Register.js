@@ -29,13 +29,14 @@ const Register = () => {
         try {
             setError('');
             setLoading(true);
-            await signup(email, password);
-
+        
             const body = 
             {
                 firstName: firstName,
                 lastName: lastName,
                 email: email,
+                password: password,
+                confirmPassword: confirmpassword,
                 role: role ? role : ''
             }
 
@@ -45,9 +46,15 @@ const Register = () => {
                 body: JSON.stringify(body)
             });
             
-            console.log('User registered!', await response.json());
-
-            history.push('/');
+            if (response.status === 200){
+                await signup(email, password);
+                // console.log('User registered!', await response.json());
+                history.push('/');
+            } else{
+                const valError = await response.json();
+                setError(valError.msg);
+            }
+            
         } catch {
             setError('Failed to create account, email taken.');
         }
