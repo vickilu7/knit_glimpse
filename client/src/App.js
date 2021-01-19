@@ -1,11 +1,13 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import PrivateRoute from './components/PrivateRoute';
 import { AuthProvider } from './AuthContext';
 
 import Homepage from './components/Homepage';
 import Register from './components/forms/Register';
 import Login from './components/forms/Login';
+import PrivateRoute from './components/PrivateRoute';
+
+import Footer from './components/Footer';
 
 import './App.less';
 import './fonts.css';
@@ -15,13 +17,14 @@ class App extends React.Component {
     return (
           <div className="App">
           <Router>
-          <AuthProvider>
-            <Switch>
-              <Route exact path= '/register' component= {Register}/>
-              <Route exact path= '/login' component= {Login}/>
-              
-              <PrivateRoute exact path= '/' component= {Homepage}/>
-            </Switch>
+            <AuthProvider>
+              <Switch>
+                <PrivateRoute exact path= '/' component= {Homepage}/>
+                <Route exact path= '/register' component= {Register}/>
+                <Route exact path= '/login' component= {Login}/>
+
+                <Route exact path='/dev' component = {Footer}/>
+              </Switch>
             </AuthProvider>
           </Router>
         </div>

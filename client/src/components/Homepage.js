@@ -115,7 +115,7 @@ const Homepage = () => {
                             filterKind="Types"
                         />
 
-                        <h1>Personal Control Panel lol</h1>
+                        {/* <h1>Personal Control Panel lol</h1>
                         <table>
                             <thead>
                             <tr>
@@ -133,7 +133,7 @@ const Homepage = () => {
                                     </tr>
                                 ))}
                             </tbody>
-                        </table>
+                        </table> */}
                     </div>
 
                     <div>

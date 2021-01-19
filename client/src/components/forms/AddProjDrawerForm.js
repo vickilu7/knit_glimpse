@@ -27,10 +27,11 @@ const AddProjDrawerForm = () => {
         const jsonData = await response.json();
         setUser(jsonData);
     }
-      getCurrentUserInfo();
+    getCurrentUserInfo();
   }, [currentUser.email]);
 
-  const onSubmitForm = async () => {
+  const onSubmitForm = async (e) => {
+    e.preventDefault();
     try {
         const t = [];
         const i = [];

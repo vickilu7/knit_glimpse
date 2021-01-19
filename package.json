@@ -1,9 +1,10 @@
 {
-  "name": "reactexpress",
+  "name": "knitglimpse",
   "version": "1.0.0",
-  "description": "Boilerplate for React and Express",
+  "description": "Knit project for Glimpse",
   "main": "index.js",
   "scripts": {
+    "postinstall": "cd client && npm install",
     "start": "node server.js",
     "server": "nodemon server.js",
     "client": "cd client && npm start",

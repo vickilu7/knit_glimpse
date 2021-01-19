@@ -60,12 +60,12 @@ const Register = () => {
             <h1 style={{fontSize: 36, fontWeight: 800}}>Sign Up for Knit</h1>
             <p>Join other self-starters to bring your ideas to life.</p>
             {error && 
-            <Alert
-                message={error}
-                type="error"
-                showIcon
-                className='alert'  
-            />
+                <Alert
+                    message={error}
+                    type="error"
+                    showIcon
+                    className='alert'  
+                />
             }
 
             <Form

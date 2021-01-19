@@ -46,3 +46,12 @@ CREATE TABLE IF NOT EXISTS interests
         REFERENCES projects(id)
         ON DELETE CASCADE
 );
+
+
+CREATE TABLE IF NOT EXISTS applications
+(
+    project_id      UUID NOT NULL,
+    applicant       UUID NOT NULL,
+    apply_date      BIGINT NOT NULL,
+    message         TEXT
+);

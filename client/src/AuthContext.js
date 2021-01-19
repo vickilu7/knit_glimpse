@@ -24,11 +24,12 @@ export function AuthProvider({ children }){
     }
     
     useEffect( () => {
+        // only run once when we mount component
         const unsubscribe = auth.onAuthStateChanged(user => {
             setCurrentUser(user);
-            setLoading(false);  
+            setLoading(false);  // don't render any of application until current user set for first time
         })
-
+        // unsubscribe us from the onAuthStateChanged listener when component unmounts
         return unsubscribe;
     }, []);
 

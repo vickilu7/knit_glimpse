@@ -1,5 +1,5 @@
 @import '~antd/dist/antd.less';
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+// @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 
 
 .App {
@@ -51,10 +51,17 @@
 }
 
 .App-footer{
-  height: 450px;
+  height: 100%;
   background: #F5F7F9;
   display: grid;
   grid-template-columns: 16.6% 50% 33.3%;
   padding: 60px 120px;
   color: black;
+}
+
+@media (max-width: 1200px){
+  .App-footer{
+    display: flex;
+    flex-wrap: wrap;
+  }
 }

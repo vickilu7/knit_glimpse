@@ -32,12 +32,12 @@ const Login = () => {
         <div className='container' >
             <h1 style={{fontSize: 36, fontWeight: 800}}>Log In</h1>
             {error && 
-            <Alert
-                message={error}
-                type="error"
-                showIcon
-                className='alert'                
-            />
+                <Alert
+                    message={error}
+                    type="error"
+                    showIcon
+                    className='alert'                
+                />
             }
 
             <Form

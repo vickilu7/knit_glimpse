@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import Apply from '../forms/Apply';
 import { Avatar, Button, Tag } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import './projects.css';
@@ -78,6 +79,7 @@ function ProjectCard(props) {
                 <div className="dual-buttons">
                     <Button>Save</Button>
                     <Button type="primary">Apply</Button>
+                    <Apply/>
                 </div>
             </div>
         </div>

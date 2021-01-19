@@ -15,12 +15,16 @@ router.get('/', async (req, res) => {
 
 // Get SINGLE User by email or id
 router.get('/:identifier', async (req, res) => {
-    const identifier = req.params.identifier;
-    const type = identifier.indexOf("@") !== -1 ? 'email' : 'id';
-
-    const user = type === 'email' ? await pool.query("SELECT * FROM users WHERE email=$1", [identifier])
-        : await pool.query("SELECT * FROM users WHERE id=$1", [identifier]);
-    res.json(user.rows[0]);
+    try {
+        const identifier = req.params.identifier;
+        const type = identifier.indexOf("@") !== -1 ? 'email' : 'id';
+    
+        const user = type === 'email' ? await pool.query("SELECT * FROM users WHERE email=$1", [identifier])
+            : await pool.query("SELECT * FROM users WHERE id=$1", [identifier]);
+        res.json(user.rows[0]);
+    } catch (err) {
+        console.error(err.message);
+    }
 });
 
 // Create (Register) New User
