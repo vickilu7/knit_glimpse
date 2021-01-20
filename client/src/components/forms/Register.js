@@ -20,11 +20,10 @@ const Register = () => {
 
     const onSubmitForm = async () => {
 
-        if (password.length <= 6){
+        if (password.length <= 6) 
             return setError('Please use more than 6 characters for password');
-        } else if (password !== confirmpassword){
+        else if (password !== confirmpassword) 
             return setError('Passwords do not match');
-        }
         
         try {
             setError('');

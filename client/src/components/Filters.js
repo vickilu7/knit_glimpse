@@ -65,6 +65,7 @@ function FiltersComponent(props) {
                 placeholder={selectPlaceholder}
                 optionLabelProp="label"
                 onChange={(value) => props.handleFilters(value)}
+                allowClear
               >
                 {renderOptionsList()}
               </Select>

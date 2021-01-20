@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const uuid = require('uuid');
 const pool = require('../db');
+const Joi = require('joi');
+const { projectSchema } = require('./validation_schema');
 
 // Get ALL Projects
 router.get('/', async (req, res) => {
@@ -36,7 +38,9 @@ router.get('/:id', async (req, res) => {
 // Create New Project
 router.post('/', async (req, res) => {
     try {
-        const { creatorID, title, description, stage, types, interests } = req.body;
+        const val = await projectSchema.validateAsync(req.body);
+
+        const { creatorID, title, description, stage, types, interests } = val;
         const projectID = uuid.v4();
         const todays_date = new Date().getTime(); // technically int includes time too, not just date
     
@@ -64,6 +68,9 @@ router.post('/', async (req, res) => {
         
         res.json(newProject.rows[0]);
     } catch (err) {
+        if (Joi.isError(err) === true) {
+            res.status(422).json({msg : err.details[0].message});
+        }
         console.error(err.message);
     }
 });

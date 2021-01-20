@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useAuth} from '../../AuthContext';
 import './forms.css';
-import { Drawer, Form, Button, Col, Row, Input, Select} from 'antd';
+import { Drawer, Form, Button, Col, Row, Input, Select, Alert } from 'antd';
 
 const { Option } = Select;
 
@@ -12,6 +12,7 @@ const AddProjDrawerForm = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [stage, setStage] = useState('');
+  const [error, setError] = useState('');
   var typeArray = [];
   var interestArray = [];
 
@@ -47,13 +48,18 @@ const AddProjDrawerForm = () => {
             interests: i
         }
         
-        await fetch("/api/projects", {
+        const response = await fetch("/api/projects", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(body)
         });
 
-        window.location = "/";
+        if (response.status === 200){
+            window.location = "/";
+        } else{
+            const valError = await response.json();
+            setError(valError.msg);
+        }
 
     } catch (err) {
         console.error(err.message);
@@ -88,6 +94,14 @@ const AddProjDrawerForm = () => {
           }
         >
           <Form layout="vertical">
+          {error && 
+                <Alert
+                    message={error}
+                    type="error"
+                    showIcon
+                    className='alert'  
+                />
+            }
             <Row gutter={16}>
               <Col span={12}>
                 <Form.Item

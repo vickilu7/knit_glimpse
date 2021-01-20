@@ -1,8 +1,8 @@
 const express = require('express');
-const Joi = require('joi');
 const router = express.Router();
 const uuid = require('uuid');
 const pool = require('../db');
+const Joi = require('joi');
 const { authSchema } = require('./validation_schema');
 
 // Get All Users
